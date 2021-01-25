@@ -14,3 +14,32 @@ code {
 ul {
   list-style-type: none;
 }
+form.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100vh;
+}
+ul {
+  list-style-type: none;
+  position: absolute;
+  top: 30rem;
+  left: 18rem;
+  background: aquamarine;
+  border-radius: 16px;
+  max-height: 218px;
+  min-height: 218px;
+  overflow: scroll;
+  min-width: 400px;
+  max-width: 400px;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

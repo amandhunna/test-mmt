@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import useDebounce from './useDebounce';
 
 function App() {
   const [searchValue, setSearchValue] = useState('')
   const [cities, setCities] = useState([]);
   const [showOptions, setShowOptions] = useState(false)
   const [loading, setLoading] = useState(true);
+  const debounce = useDebounce(searchValue, 1000);
   
   const handleChange = (e) => {
     e.preventDefault();
@@ -30,7 +32,6 @@ function App() {
     onChange: handleChange,
     onClick: handleClick,
     placeholder: 'From',
-   // id:'city'
   }
 
   
@@ -38,9 +39,12 @@ function App() {
   useEffect(() => {
     const getRequiredData = async () => {
       try{ 
+        const query = searchValue? `&search_query=${searchValue}`: '';
+        const url = 'https://voyager.goibibo.com/api/v2/flights_search/find_node_by_name_v2/?limit=15' + query +'&v=2'
+
       const config = {
         method: 'get',
-        url: 'https://voyager.goibibo.com/api/v2/flights_search/find_node_by_name_v2/?limit=15&search_query=india&v=2',
+        url,
         headers: { }
       };
 
@@ -53,9 +57,8 @@ function App() {
       setLoading(false);
     }
     }
-
     getRequiredData();
-  }, []);
+  }, [debounce]);
 
 
   if(loading) {
@@ -63,15 +66,15 @@ function App() {
   }
 
   return (
-    <div className="App">
-    <span className='appendToBottom' aria-autocomplete='false'></span>
-    {/* <label for='city'></label> */}
-    <input {...inputData}/>  
-    
-    {showOptions && <ul name="cars" id="cars">
-      {cities.map(item =>  item.show && <li onClick={onListClick}>{item.label}</li>)}
-    </ul>}
-    
+    <div id="container">
+	      <form class="search" action="" >
+	      	 <input type="text" {...inputData}
+
+           />
+	      	 <ul class="results" >
+	      		 {cities.map(item => item.show && <li onClick={onListClick}>{item.label}</li>)}
+	      	 </ul>
+	      </form>
     </div>
   );
 }
