@@ -68,12 +68,13 @@ function App() {
   return (
     <div id="container">
 	      <form class="search" action="" >
-	      	 <input type="text" {...inputData}
+          <label for="city">Cities</label>
+	      	<input list='city' type="text" {...inputData}
 
            />
-	      	 <ul class="results" >
-	      		 {cities.map(item => item.show && <li onClick={onListClick}>{item.label}</li>)}
-	      	 </ul>
+	      	 <datalist id="city">
+	      		 {cities.map(item => item.show && <option onClick={onListClick} value={item.label}/>)}
+            </datalist>
 	      </form>
     </div>
   );
